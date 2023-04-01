@@ -5,11 +5,18 @@ import (
 	"net"
 )
 
-func ListeningAndServing(ln net.Listener, port int) {
+func ListeningAndServing() {
 	var err error
-	ln, err := net.Listen("tcp", ":6060")
+	port := "localhost:5000"
+
+	ln, err := net.Listen("tcp", port)
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer ln.Close()
+
+	host, port, err := net.SplitHostPort(ln.Addr().String())
+
+	fmt.Println("listening on port: %s host:%s \n", port, host)
 
 }
